@@ -56,22 +56,9 @@ class ChangeParametersHandler:
 			try:
 
 				parameters = ChangeParametersPayload(**json_dict)
-				self.__update_weight(parameters.age_range_weight,"AGE_RANGE_WEIGHT")
-				self.__update_weight(parameters.ccd_weight,"CCD_WEIGHT")
-				self.__update_weight(parameters.maca_weight,"MACA_WEIGHT")
-				self.__update_weight(parameters.expected_survival_weight,"EXPECTED_SURVIVAL_WEIGHT")
-				self.__update_weight(parameters.frail_VIG_weight,"FRAIL_VIG_WEIGHT")
-				self.__update_weight(parameters.clinical_risk_group_weight,"CLINICAL_RISK_GROUP_WEIGHT")
-				self.__update_weight(parameters.has_social_support_weight,"HAS_SOCIAL_SUPPORT_WEIGHT")
-				self.__update_weight(parameters.independence_at_admission_weight,"INDEPENDENCE_AT_ADMISSION_WEIGHT")
-				self.__update_weight(parameters.independence_instrumental_activities_weight,"INDEPENDENCE_INSTRUMENTAL_ACTIVITIES_WEIGHT")
-				self.__update_weight(parameters.has_advance_directives_weight,"HAS_ADVANCE_DIRECTIVES_WEIGHT")
 				self.__update_weight(parameters.is_competent_weight,"IS_COMPETENT_WEIGHT")
 				self.__update_weight(parameters.has_been_informed_weight,"HAS_BEEN_INFORMED_WEIGHT")
 				self.__update_weight(parameters.is_coerced_weight,"IS_COERCED_WEIGHT")
-				self.__update_weight(parameters.has_cognitive_impairment_weight,"HAS_COGNITIVE_IMPAIRMENT_WEIGHT")
-				self.__update_weight(parameters.has_emocional_pain_weight,"HAS_EMOCIONAL_PAIN_WEIGHT")
-				self.__update_weight(parameters.discomfort_degree_weight,"DISCOMFORT_DEGREE_WEIGHT")
 
 				self.mov.info("Changed the component parameters",json_dict)
 

@@ -30,22 +30,9 @@ from c2_treatment_autonomy_valuator.message_service import MessageService
 from c2_treatment_autonomy_valuator.mov import MOV
 
 PROPERTY_NAME_PARAMETERS = [
-		param("age_range_weight"),
-		param("ccd_weight"),
-		param("maca_weight"),
-		param("expected_survival_weight"),
-		param("frail_VIG_weight"),
-		param("clinical_risk_group_weight"),
-		param("has_social_support_weight"),
-		param("independence_at_admission_weight"),
-		param("independence_instrumental_activities_weight"),
-		param("has_advance_directives_weight"),
 		param("is_competent_weight"),
 		param("has_been_informed_weight"),
-		param("is_coerced_weight"),
-		param("has_cognitive_impairment_weight"),
-		param("has_emocional_pain_weight"),
-		param("discomfort_degree_weight")
+		param("is_coerced_weight")
 	]
 
 class TestChangeParametersHandler(ParametrizedTestCase):
@@ -102,22 +89,9 @@ class TestChangeParametersHandler(ParametrizedTestCase):
 
 		random.random()
 		parameters = {
-				"age_range_weight": self.random_weight(),
-				"ccd_weight": self.random_weight(),
-				"maca_weight": self.random_weight(),
-				"expected_survival_weight": self.random_weight(),
-				"frail_VIG_weight": self.random_weight(),
-				"clinical_risk_group_weight": self.random_weight(),
-				"has_social_support_weight": self.random_weight(),
-				"independence_at_admission_weight": self.random_weight(),
-				"independence_instrumental_activities_weight": self.random_weight(),
-				"has_advance_directives_weight": self.random_weight(),
 				"is_competent_weight": self.random_weight(),
 				"has_been_informed_weight": self.random_weight(),
-				"is_coerced_weight": self.random_weight(),
-				"has_cognitive_impairment_weight": self.random_weight(),
-				"has_emocional_pain_weight": self.random_weight(),
-				"discomfort_degree_weight": self.random_weight()
+				"is_coerced_weight": self.random_weight()
 			}
 		self.__assert_process_change_parameters('INFO', parameters)
 		for param_name in parameters:

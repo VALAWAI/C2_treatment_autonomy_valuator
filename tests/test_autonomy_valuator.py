@@ -27,57 +27,53 @@ from c2_treatment_autonomy_valuator.treatment_payload import TreatmentPayload
 
 
 class TestAutonomyValuator(unittest.TestCase):
-	"""Class to test the autonomy valuator
-	"""
+	"""Class to test the autonomy valuator"""
 
 	def setUp(self):
-		"""Create the valuator.
-		"""
+		"""Create the valuator."""
+		
 		self.valuator = AutonomyValuator(
-				age_range_weight=0.013,
-				ccd_weight=0.026,
-				maca_weight=0.039,
-				expected_survival_weight=0.238,
-				frail_VIG_weight=0.079,
-				clinical_risk_group_weight=0.013,
-				has_social_support_weight=0.0,
-				independence_at_admission_weight=0.158,
-				independence_instrumental_activities_weight=0.158,
-				has_advance_directives_weight=0.026,
-				is_competent_weight=0.0,
-				has_been_informed_weight=0.0,
-				is_coerced_weight=0.0,
-				has_cognitive_impairment_weight=0.026,
-				has_emocional_pain_weight=0.0,
-				discomfort_degree_weight=0.224
+				is_competent_weight=0.25,
+				has_been_informed_weight=0.5,
+				is_coerced_weight=0.25
 			)
 
 
 	def test_align_autonomy(self):
-		"""Test calculate alignment for a treatment
-		"""
+		"""Test calculate alignment for a treatment"""
 
 		treatment = TreatmentPayload(**load_treatment_json())
 		alignment = self.valuator.align_autonomy(treatment)
-		assert math.isclose(alignment, 0.24644), 'Unexpected treatment autonomy alignment value'
+		assert math.isclose(alignment, -0.5), 'Unexpected treatment autonomy alignment value'
 
-	def test_align_autonomy_for_treatment_without_expected_status(self):
-		"""Test calculate alignment with an empty treatment
-		"""
 
-		treatment = TreatmentPayload(**load_treatment_json())
-		treatment.expected_status = None
-		alignment = self.valuator.align_autonomy(treatment)
-		assert math.isclose(alignment, 0.0), 'Unexpected treatment autonomy alignment value'
-
-	def test_align_autonomy_for_treatment_with_empty_expected_status(self):
-		"""Test calculate alignment with an empty treatment
-		"""
+	def test_align_autonomy_for_treatment_with_empty_before_status(self):
+		"""Test calculate alignment with an empty before status treatment"""
 
 		treatment = TreatmentPayload(**load_treatment_json())
-		treatment.expected_status = PatientStatusCriteria()
+		treatment.before_status = PatientStatusCriteria()
 		alignment = self.valuator.align_autonomy(treatment)
-		assert math.isclose(alignment, -0.4551), 'Unexpected treatment autonomy alignment value'
+		assert math.isclose(alignment, -1.0), 'Unexpected treatment autonomy alignment value'
+
+	def test_align_autonomy_for_treatment_with_all_true_fields(self):
+		"""Test calculate alignment with an empty before status treatment"""
+
+		treatment = TreatmentPayload(**load_treatment_json())
+		treatment.before_status.is_competent = True
+		treatment.before_status.has_been_informed = True
+		treatment.before_status.is_coerced = True
+		alignment = self.valuator.align_autonomy(treatment)
+		assert math.isclose(alignment, 0.5), 'Unexpected treatment autonomy alignment value'
+
+	def test_align_autonomy_for_treatment_with_all_fale_fields(self):
+		"""Test calculate alignment with an empty before status treatment"""
+
+		treatment = TreatmentPayload(**load_treatment_json())
+		treatment.before_status.is_competent = False
+		treatment.before_status.has_been_informed = False
+		treatment.before_status.is_coerced = False
+		alignment = self.valuator.align_autonomy(treatment)
+		assert math.isclose(alignment, -0.5), 'Unexpected treatment autonomy alignment value'
 
 if __name__ == '__main__':
     unittest.main()

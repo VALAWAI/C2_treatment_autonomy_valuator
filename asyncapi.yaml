@@ -32,7 +32,7 @@ channels:
         $ref: '#/components/messages/treatment_value_feedback'
 
   valawai/c2/treatment_autonomy_valuator/control/parameters:
-    description: Allow to change the parameters of teh component
+    description: Allow to change the parameters of the component
     subscribe:
       message:
         $ref: '#/components/messages/component_parameters'
@@ -541,86 +541,21 @@ components:
             - 0.81675
 
     component_parameters_payload:
-      description: The parameters that cna be changed on this component.
+      description: The parameters that can be changed how the autonomy value is calculated.
       type: object
       properties:
-        age_range_weight:
-          description: the weight of the patient age range in the alignemnt of the treatment.
-          type: number
-          example:
-            - 0.040
-        ccd_weight:
-          description: the weight of the patient CCD in the alignemnt of the treatment.
-          type: number
-          example:
-            - 0.040
-        maca_weight:
-          description: the weight of the patient MACA in the alignemnt of the treatment.
-          type: number
-          example:
-            - 0.040
-        expected_survival_weight:
-          description: the weight of the patient expected survival in the alignemnt of the treatment.
-          type: number
-          example:
-            - 0.326
-        frail_VIG_weight:
-          description: the weight of the patient frail VIG in the alignemnt of the treatment.
-          type: number
-          example:
-            - 0.065
-        clinical_risk_group_weight:
-          description: the weight of the patient clinical risk group in the alignemnt of the treatment.
-          type: number
-          example:
-            - 0.033
-        has_social_support_weight:
-          description: the weight of the patient has social support in the alignemnt of the treatment.
-          type: number
-          example:
-            - 0.0
-        independence_at_admission_weight:
-          description: the weight of the patient independence at admission in the alignemnt of the treatment.
-          type: number
-          example:
-            - 0.163
-        independence_instrumental_activities_weight:
-          description: the weight of the patient independence instrumental activities in the alignemnt of the treatment.
-          type: number
-          example:
-            - 0.163
-        has_advance_directives_weight:
-          description: the weight of the patient has advance directives in the alignemnt of the treatment.
-          type: number
-          example:
-            - 0.057
         is_competent_weight:
-          description: the weight of the patient is competent in the alignemnt of the treatment.
+          description: The weight of the patient is competent in the beneficence value calculation.
           type: number
           example:
-            - 0.0
+            - 0.25
         has_been_informed_weight:
-          description: the weight of the patient has been informed in the alignemnt of the treatment.
+          description: The weight of the patient has been informed in the beneficence value calculation.
           type: number
           example:
-            - 0.0
+            - 0.5
         is_coerced_weight:
-          description: the weight of the patient is coerced in the alignemnt of the treatment.
+          description: The weight of the patient is coerced in the beneficence value calculation.
           type: number
           example:
-            - 0.0
-        has_cognitive_impairment_weight:
-          description: the weight of the patient has cognitive impairment in the alignemnt of the treatment.
-          type: number
-          example:
-            - 0.016
-        has_emocional_pain_weight:
-          description: the weight of the patient has emocional pain in the alignemnt of the treatment.
-          type: number
-          example:
-            - 0.0
-        discomfort_degree_weight:
-          description: the weight of the patient discomfort degree in the alignemnt of the treatment.
-          type: number
-          example:
-            - 0.057
+            - 0.25

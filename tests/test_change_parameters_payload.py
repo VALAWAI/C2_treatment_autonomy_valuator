@@ -35,22 +35,9 @@ class TestChangeParametersPayload(unittest.TestCase):
 
 		json_dict = load_change_parameters_json()
 		change_parameters = ChangeParametersPayload(**json_dict)
-		assert math.isclose(change_parameters.age_range_weight,0.1)
-		assert math.isclose(change_parameters.ccd_weight, 0.2)
-		assert math.isclose(change_parameters.maca_weight, 0.3)
-		assert math.isclose(change_parameters.expected_survival_weight, 0.4)
-		assert math.isclose(change_parameters.frail_VIG_weight, 0.5)
-		assert math.isclose(change_parameters.clinical_risk_group_weight, 0.6)
-		assert math.isclose(change_parameters.has_social_support_weight, 0.7)
-		assert math.isclose(change_parameters.independence_at_admission_weight, 0.8)
-		assert math.isclose(change_parameters.independence_instrumental_activities_weight, 0.9)
-		assert math.isclose(change_parameters.has_advance_directives_weight, 0.11)
-		assert math.isclose(change_parameters.is_competent_weight, 0.12)
-		assert math.isclose(change_parameters.has_been_informed_weight, 0.13)
-		assert math.isclose(change_parameters.is_coerced_weight, 0.14)
-		assert math.isclose(change_parameters.has_cognitive_impairment_weight, 0.15)
-		assert math.isclose(change_parameters.has_emocional_pain_weight, 0.16)
-		assert math.isclose(change_parameters.discomfort_degree_weight, 0.17)
+		assert math.isclose(change_parameters.is_competent_weight, 0.1)
+		assert math.isclose(change_parameters.has_been_informed_weight, 0.2)
+		assert math.isclose(change_parameters.is_coerced_weight, 0.3)
 
 	def test_allow_define_empty_change_parameters(self):
 		"""Test can create an empty change_parameters"""
@@ -71,7 +58,7 @@ class TestChangeParametersPayload(unittest.TestCase):
 		try:
 
 			json_value = load_change_parameters_json()
-			json_value['age_range_weight'] = "Bad value"
+			json_value['is_competent_weight'] = "Bad value"
 			payload = ChangeParametersPayload(**json_value)
 			assert payload is None
 

@@ -22,21 +22,8 @@ from pydantic import BaseModel, Field
 
 
 class ChangeParametersPayload(BaseModel):
-	"""The payload of the message to change the parameters of teh component."""
+	"""The payload of the message to change the parameters of the component."""
 
-	age_range_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the age range when calculate the autonomy value.")
-	ccd_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the ccd when calculate the autonomy value.")
-	maca_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the MACA when calculate the autonomy value.")
-	expected_survival_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the expected survival when calculate the autonomy value.")
-	frail_VIG_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the frail VIG when calculate the autonomy value.")
-	clinical_risk_group_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the clinical risk group when calculate the autonomy value.")
-	has_social_support_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the has social support_weight when calculate the autonomy value.")
-	independence_at_admission_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the independence at admission weight when calculate the autonomy value.")
-	independence_instrumental_activities_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the independence instrumental activities when calculate the autonomy value.")
-	has_advance_directives_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the has advance directives when calculate the autonomy value.")
 	is_competent_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the is competent when calculate the autonomy value.")
 	has_been_informed_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the has been informed when calculate the autonomy value.")
 	is_coerced_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the is coerced when calculate the autonomy value.")
-	has_cognitive_impairment_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the has cognitive impairment when calculate the autonomy value.")
-	has_emocional_pain_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the has emocional pain when calculate the autonomy value.")
-	discomfort_degree_weight: float | None = Field(default=None, ge=0.0, le=1.0, title="The importance of the discomfort degree when calculate the autonomy value.")

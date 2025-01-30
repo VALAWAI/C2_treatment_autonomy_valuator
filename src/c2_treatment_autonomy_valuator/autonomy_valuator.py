@@ -48,7 +48,7 @@ class AutonomyValuator:
 
 
 	def align_autonomy(self,treatment:TreatmentPayload):
-		"""Calculate the alignemnt of a treatemnt with the autonomy value.
+		"""Calculate the alignment of a treatemnt with the autonomy value.
 
 		Parameters
 		----------

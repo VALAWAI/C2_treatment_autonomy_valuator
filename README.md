@@ -6,7 +6,7 @@ a patient follows the autonomy_value.
 ## Summary
 
  - Type: C2
- - Name: Treament autonomy valuator
+ - Name: Treatment autonomy valuator
  - Version: 1.0.0 (January 21, 2025)
  - API: [1.0.0 (January 21, 2025)](https://raw.githubusercontent.com/VALAWAI/C2_treatment_autonomy_valuator/ASYNCAPI_1.0.0/asyncapi.yml)
  - VALAWAI API: [1.2.0 (March 9, 2024)](https://raw.githubusercontent.com/valawai/MOV/ASYNCAPI_1.2.0/asyncapi.yml)
@@ -283,7 +283,7 @@ be changed for secure deployments in production environments.
 
 ## Links
 
- - [C2 Treament autonomy valuator documentation](https://valawai.github.io/docs/components/C2/treatment_autonomy_valuator)
+ - [C2 Treatment autonomy valuator documentation](https://valawai.github.io/docs/components/C2/treatment_autonomy_valuator)
  - [Master Of VALAWAI tutorial](https://valawai.github.io/docs/tutorials/mov)
  - [VALWAI documentation](https://valawai.github.io/docs/)
  - [VALAWAI project web site](https://valawai.eu/)

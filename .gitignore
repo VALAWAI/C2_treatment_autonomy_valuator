@@ -174,3 +174,4 @@ cython_debug/
 
 logs/
 .c2_treatment_autonomy_valuator-docker-cache/
+/.ruff_cache/

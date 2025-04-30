@@ -47,7 +47,7 @@ else
 	pushd $DIR > /dev/null
 	if [[ -z $PLATFORMS ]];
 	then
-		DOCKER_BUILDKIT=1 docker build $DOCKER_ARGS -f docker/main/Dockerfile -t valawai/c2_treatment_autonomy_valuator:$TAG .
+		DOCKER_BUILDKIT=1 docker build $DOCKER_ARGS --pull -f docker/main/Dockerfile -t valawai/c2_treatment_autonomy_valuator:$TAG .
 	else
 		if docker buildx ls 2>/dev/null| grep -q c2_treatment_autonomy_valuator_builder;
 		then

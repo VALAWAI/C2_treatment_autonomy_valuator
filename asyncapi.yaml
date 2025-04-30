@@ -1,7 +1,7 @@
 asyncapi: '2.6.0'
 info:
  title: C2 Treatment autonomy valuator
- version: '1.0.0'
+ version: '1.0.1'
  description: |
   This VALAWAI component calculate the alignment of a patient treatment
   with the value autonomy.
@@ -457,7 +457,7 @@ components:
           minimum: 0
           maximum: 8
           nullable: true
-        has_advance_Directives:
+        has_advance_directives:
           type: boolean
           nullable: true
           description:  >
@@ -530,14 +530,14 @@ components:
         value_name:
           type: string
           description: The name of the value that the treatment is aligned.
-          example:
+          examples:
             - "Autonomy"
         alignment:
           type: number
           description: The alignment of the value with the the treatment.
           maximum: 1
           minimum: -1
-          Example:
+          examples:
             - 0.81675
 
     component_parameters_payload:
@@ -547,15 +547,15 @@ components:
         is_competent_weight:
           description: The weight of the patient is competent in the beneficence value calculation.
           type: number
-          example:
+          examples:
             - 0.25
         has_been_informed_weight:
           description: The weight of the patient has been informed in the beneficence value calculation.
           type: number
-          example:
+          examples:
             - 0.5
         is_coerced_weight:
           description: The weight of the patient is coerced in the beneficence value calculation.
           type: number
-          example:
+          examples:
             - 0.25

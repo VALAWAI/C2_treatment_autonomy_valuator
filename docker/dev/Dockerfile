@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:experimental
-FROM python:3.13.1-bullseye
+FROM python:3-slim-bookworm
 
 ENV RABBITMQ_HOST=host.docker.internal
 	

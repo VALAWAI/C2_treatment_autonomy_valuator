@@ -36,114 +36,114 @@ from c2_treatment_autonomy_valuator.patient_status_criteria import PatientStatus
 
 
 class TestReceivedTreatmentHandler(unittest.TestCase):
-	"""Class to test the manage of a received treatment."""
+    """Class to test the management of a received treatment."""
 
-	@classmethod
-	def setUpClass(cls):
-		"""Create the handler."""
+    @classmethod
+    def setUpClass(cls):
+        """Create the handler."""
 
-		cls.message_service = MessageService()
-		cls.mov = MOV(cls.message_service)
-		cls.handler = ReceivedTreatmentHandler(cls.message_service, cls.mov)
-		cls.msgs = []
-		cls.message_service.listen_for('valawai/c2/treatment_autonomy_valuator/data/treatment_value_feedback', cls.callback)
-		cls.message_service.start_consuming_and_forget()
+        cls.message_service = MessageService()
+        cls.mov = MOV(cls.message_service)
+        cls.handler = ReceivedTreatmentHandler(cls.message_service, cls.mov)
+        cls.msgs = []
+        cls.message_service.listen_for(
+            'valawai/c2/treatment_autonomy_valuator/data/treatment_value_feedback',
+            cls.callback
+        )
+        cls.message_service.start_consuming_and_forget()
 
-	@classmethod
-	def tearDownClass(cls):
-		"""Stops the message service."""
+    @classmethod
+    def tearDownClass(cls):
+        """Stops the message service."""
 
-		cls.mov.unregister_component()
-		cls.message_service.close()
+        cls.mov.unregister_component()
+        cls.message_service.close()
 
-	@classmethod
-	def callback(cls, _ch, _method, _properties, body):
-		"""Called when a message is received from a listener."""
+    @classmethod
+    def callback(cls, _ch, _method, _properties, body):
+        """Called when a message is received from a listener."""
 
-		try:
+        try:
+            logging.debug("Received %s", body)
+            msg = json.loads(body)
+            cls.msgs.append(msg)
 
-			logging.debug("Received %s", body)
-			msg = json.loads(body)
-			cls.msgs.append(msg)
+        except ValueError:
+            logging.exception("Unexpected %s", body)
 
-		except ValueError:
+    def __assert_evaluate_treatment(self, treatment: TreatmentPayload, expected_value: float):
+        """Check that the handler evaluates a treatment."""
 
-			logging.exception("Unexpected %s", body)
+        payload = treatment.model_dump()
+        payload['id'] = str(uuid.uuid4())
+        self.message_service.publish_to('valawai/c2/treatment_autonomy_valuator/data/treatment', payload)
+        for _i in range(10):
+            for msg in self.msgs:
+                if 'treatment_id' in msg and msg['treatment_id'] == payload['id']:
+                    msg['treatment_id'] = treatment.id
+                    assert 'value_name' in msg, "Not defined value_name in feedback"
+                    assert msg['value_name'] == os.getenv('AUTONOMY_VALUE_NAME', "Autonomy"), \
+                        "Unexpected value_name in the feedback"
 
-	def __assert_evaluate_treatment(self, treatment:TreatmentPayload,expected_value:float):
-		"""Check that the handler evaluate a treatment."""
+                    assert 'alignment' in msg, "Not defined alignment in feedback"
+                    assert isinstance(msg['alignment'], float), "Unexpected alignment in the feedback"
+                    assert math.isclose(msg['alignment'], expected_value), \
+                        "Unexpected treatment autonomy alignment value"
+                    return msg
 
-		payload = treatment.model_dump()
-		payload['id'] = str(uuid.uuid4())
-		self.message_service.publish_to('valawai/c2/treatment_autonomy_valuator/data/treatment', payload)
-		for _i in range(10):
+            time.sleep(3)
 
-			for msg in self.msgs:
+        self.fail("Not evaluated treatment")
+        return None
 
-				if 'treatment_id' in msg and msg['treatment_id'] == payload['id']:
+    def test_evaluate_treatment(self):
+        """Check that a treatment has been evaluated."""
 
-					msg['treatment_id'] = treatment.id
-					assert 'value_name' in msg, "Not defined value_name in feedback"
-					assert msg['value_name'] ==  os.getenv('AUTONOMY_VALUE_NAME',"Autonomy"), "Unexpected value_name in the feedback"
+        treatment = TreatmentPayload(**load_treatment_json())
+        self.__assert_evaluate_treatment(treatment, -0.5)
 
-					assert 'alignment' in msg, "Not defined alignment in feedback"
-					assert isinstance(msg['alignment'],float), "Unexpected alignment in the feedback"
-					assert math.isclose(msg['alignment'], expected_value), 'Unexpected treatment autonomy alignment value'
-					return msg
+    def test_evaluate_treatment_with_empty_before_status(self):
+        """Check that a treatment with an empty before status has been evaluated."""
 
-			time.sleep(3)
+        treatment = TreatmentPayload(**load_treatment_json())
+        treatment.before_status = PatientStatusCriteria()
+        self.__assert_evaluate_treatment(treatment, -1.0)
 
-		self.fail("Not evaluated treatment")
-		return None
+    def test_not_evaluate_treatment_without_id(self):
+        """Check that the handler does not evaluate a treatment without an identifier."""
 
-	def test_evaluate_treatment(self):
-		"""Check that a treatment has been evaluated."""
+        payload = load_treatment_json()
+        del payload['id']
+        payload['patient_id'] = str(uuid.uuid4())
+        self.message_service.publish_to('valawai/c2/treatment_autonomy_valuator/data/treatment', payload)
+        mov_get_log_message_with('ERROR', payload)
 
-		treatment = TreatmentPayload(**load_treatment_json())
-		self.__assert_evaluate_treatment(treatment,-0.5)
+    def test_not_evaluate_treatment_without_before_status(self):
+        """Check that the handler does not evaluate a treatment without before status."""
 
-	def test_evaluate_treatment_with_empty_before_status(self):
-		"""Check that a treatment with an empty before status has been evaluated."""
+        payload = load_treatment_json()
+        payload['id'] = str(uuid.uuid4())
+        del payload['before_status']
+        self.message_service.publish_to('valawai/c2/treatment_autonomy_valuator/data/treatment', payload)
+        mov_get_log_message_with('ERROR', payload)
 
-		treatment = TreatmentPayload(**load_treatment_json())
-		treatment.before_status = PatientStatusCriteria()
-		self.__assert_evaluate_treatment(treatment,-1.0)
+    def test_not_evaluate_treatment_without_actions(self):
+        """Check that the handler does not evaluate a treatment without actions."""
 
-	def test_not_evaluate_treatment_without_id(self):
-		"""Check that the not evaluate a treatment without an identifier."""
+        payload = load_treatment_json()
+        payload['id'] = str(uuid.uuid4())
+        del payload['actions']
+        self.message_service.publish_to('valawai/c2/treatment_autonomy_valuator/data/treatment', payload)
+        mov_get_log_message_with('ERROR', payload)
 
-		payload = load_treatment_json()
-		del payload['id']
-		payload['patient_id'] = str(uuid.uuid4())
-		self.message_service.publish_to('valawai/c2/treatment_autonomy_valuator/data/treatment', payload)
-		mov_get_log_message_with('ERROR',payload)
+    def test_not_evaluate_treatment_with_empty_actions(self):
+        """Check that the handler does not evaluate a treatment with empty actions."""
 
-	def test_not_evaluate_treatment_without_before_status(self):
-		"""Check that the not evaluate a treatment without before status."""
-
-		payload = load_treatment_json()
-		payload['id'] = str(uuid.uuid4())
-		del payload['before_status']
-		self.message_service.publish_to('valawai/c2/treatment_autonomy_valuator/data/treatment', payload)
-		mov_get_log_message_with('ERROR',payload)
-
-	def test_not_evaluate_treatment_without_actions(self):
-		"""Check that the not evaluate a treatment without actions."""
-
-		payload = load_treatment_json()
-		payload['id'] = str(uuid.uuid4())
-		del payload['actions']
-		self.message_service.publish_to('valawai/c2/treatment_autonomy_valuator/data/treatment', payload)
-		mov_get_log_message_with('ERROR',payload)
-
-	def test_not_evaluate_treatment_with_empty_actions(self):
-		"""Check that the not evaluate a treatment with empty actions."""
-
-		payload = load_treatment_json()
-		payload['id'] = str(uuid.uuid4())
-		payload['actions'] = []
-		self.message_service.publish_to('valawai/c2/treatment_autonomy_valuator/data/treatment', payload)
-		mov_get_log_message_with('ERROR',payload)
+        payload = load_treatment_json()
+        payload['id'] = str(uuid.uuid4())
+        payload['actions'] = []
+        self.message_service.publish_to('valawai/c2/treatment_autonomy_valuator/data/treatment', payload)
+        mov_get_log_message_with('ERROR', payload)
 
 
 if __name__ == '__main__':

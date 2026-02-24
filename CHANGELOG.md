@@ -1,5 +1,10 @@
 # C2_treatment_autonomy_valuator
 
+## Version 1.1.0 (February 24, 2025)
+
+ - Improve docs
+ - Fix close RabbitMQ connections
+
 
 ## Version 1.0.2 (April 30, 2025)
 

@@ -177,7 +177,7 @@ class TestPatientStatusCriteria(unittest.TestCase):
 		normalized = self.criteria.normalized_independence_instrumental_activities()
 		assert normalized == expected
 
-		expected = [0.0, 0.13, 0.26, 0.38, 0.5, 0.63, 0.75, 0.88, 1.0]
+		expected = [0.0, 0.12, 0.25, 0.38, 0.5, 0.62, 0.75, 0.88, 1.0]
 		for index,value in enumerate(expected):
 
 			self.criteria.independence_instrumental_activities = index

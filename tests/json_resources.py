@@ -21,17 +21,18 @@ import json
 from pathlib import Path
 
 
-def __load_json(file:str):
-	"""Load the json file"""
-	with Path(__file__).parent.joinpath(file).open() as file:
-		return json.load(file)
+def __load_json(filename: str):
+    """Load the JSON file."""
+    with Path(__file__).parent.joinpath(filename).open() as json_file:
+        return json.load(json_file)
 
 def load_treatment_json():
-	"""Obtain the distionary defined in the treatment.json"""
+    """Obtain the dictionary defined in treatment.json."""
 
-	return __load_json('treatment.json')
+    return __load_json('treatment.json')
+
 
 def load_change_parameters_json():
-	"""Obtain the distionary defined in the change_parameters.json"""
+    """Obtain the dictionary defined in change_parameters.json."""
 
-	return __load_json('change_parameters.json')
+    return __load_json('change_parameters.json')

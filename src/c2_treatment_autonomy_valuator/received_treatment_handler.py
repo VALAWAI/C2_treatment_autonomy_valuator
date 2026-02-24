@@ -21,60 +21,67 @@ import json
 import logging
 import os
 
-from autonomy_valuator import AutonomyValuator
-from message_service import MessageService
-from mov import MOV
+from c2_treatment_autonomy_valuator.autonomy_valuator import AutonomyValuator
+from c2_treatment_autonomy_valuator.message_service import MessageService
+from c2_treatment_autonomy_valuator.mov import MOV
+from c2_treatment_autonomy_valuator.treatment_payload import TreatmentPayload
+
 from pydantic import ValidationError
-from treatment_payload import TreatmentPayload
 
 
 class ReceivedTreatmentHandler:
-	""" The component that handle the messages with the treatemnt to valuate."""
+    """The component that handles the messages with the treatment to valuate."""
 
-	def __init__(self,message_service:MessageService,mov:MOV):
-		"""Initialize the handler
+    def __init__(self, message_service: MessageService, mov: MOV):
+        """Initialize the handler
 
-		Parameters
-		----------
-		message_service : MessageService
-			The service to receive or send messages thought RabbitMQ
-		mov : MOV
-			The service to interact with the MOV
-		"""
-		self.message_service = message_service
-		self.mov = mov
-		self.message_service.listen_for('valawai/c2/treatment_autonomy_valuator/data/treatment',self.handle_message)
+        Parameters
+        ----------
+        message_service : MessageService
+            The service to receive or send messages through RabbitMQ
+        mov : MOV
+            The service to interact with the MOV
+        """
+        self.message_service = message_service
+        self.mov = mov
+        self.message_service.listen_for(
+            'valawai/c2/treatment_autonomy_valuator/data/treatment',
+            self.handle_message
+        )
 
+    def handle_message(self, _ch, _method, _properties, body: bytes) -> None:
+        """Manage the received messages on the channel valawai/c2/treatment_autonomy_valuator/data/treatment"""
 
-	def handle_message(self, _ch, _method, _properties, body):
-		""" Manage the received messages on the channel valawai/c2/treatment_autonomy_valuator/data/treatment"""
+        try:
+            try:
+                treatment = TreatmentPayload.model_validate_json(body)
+                json_dict = treatment.model_dump()
+                self.mov.info("Received a treatment", json_dict)
 
-		try:
+                valuator = AutonomyValuator()
+                alignment = valuator.align_autonomy(treatment)
 
-			json_dict = json.loads(body)
+                value_name = os.getenv('AUTONOMY_VALUE_NAME', "Autonomy")
+                feedback_msg = {
+                    "treatment_id": treatment.id,
+                    "value_name": value_name,
+                    "alignment": alignment
+                }
+                self.message_service.publish_to(
+                    'valawai/c2/treatment_autonomy_valuator/data/treatment_value_feedback',
+                    feedback_msg
+                )
+                self.mov.info("Sent treatment value feedback", feedback_msg)
 
-			try:
+            except ValidationError as validation_error:
+                # We try to load as JSON to include in error log if Pydantic failed but it was valid JSON
+                try:
+                    json_dict = json.loads(body)
+                except (ValueError, TypeError):
+                    json_dict = {"raw_body": str(body)}
+                
+                msg = f"Cannot process treatment, because {validation_error}"
+                self.mov.error(msg, json_dict)
 
-				treatment = TreatmentPayload(**json_dict)
-				self.mov.info("Received a treatment",json_dict)
-
-				valuator = AutonomyValuator()
-				alignment = valuator.align_autonomy(treatment)
-
-				value_name = os.getenv('AUTONOMY_VALUE_NAME',"Autonomy")
-				feedback_msg = {
-						"treatment_id": treatment.id,
-						"value_name": value_name,
-						"alignment": alignment
-					}
-				self.message_service.publish_to('valawai/c2/treatment_autonomy_valuator/data/treatment_value_feedback',feedback_msg)
-				self.mov.info("Sent treatment value feedback",feedback_msg)
-
-			except ValidationError as validation_error:
-
-				msg = f"Cannot process treatment, because {validation_error}"
-				self.mov.error(msg,json_dict)
-
-		except ValueError:
-
-			logging.exception("Unexpected message %s",body)
+        except Exception:
+            logging.exception("Unexpected error processing message %s", body)

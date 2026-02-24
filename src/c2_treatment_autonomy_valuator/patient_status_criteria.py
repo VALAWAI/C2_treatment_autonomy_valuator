@@ -22,382 +22,345 @@ from enum import Enum
 from pydantic import BaseModel, Field
 
 
-class AgeRangeOption(str,Enum):
-	"""The different ranges of ages for a patient."""
+class AgeRangeOption(str, Enum):
+    """The different ranges of ages for a patient."""
 
-	# The age is between 0 and 19 years old.
-	AGE_BETWEEN_0_AND_19 = "AGE_BETWEEN_0_AND_19"
+    # The age is between 0 and 19 years old.
+    AGE_BETWEEN_0_AND_19 = "AGE_BETWEEN_0_AND_19"
 
-	# The age is between 20 and 29 years old.
-	AGE_BETWEEN_20_AND_29 = "AGE_BETWEEN_20_AND_29"
+    # The age is between 20 and 29 years old.
+    AGE_BETWEEN_20_AND_29 = "AGE_BETWEEN_20_AND_29"
 
-	# The age is between 30 and 39 years old.
-	AGE_BETWEEN_30_AND_39 = "AGE_BETWEEN_30_AND_39"
+    # The age is between 30 and 39 years old.
+    AGE_BETWEEN_30_AND_39 = "AGE_BETWEEN_30_AND_39"
 
-	# The age is between 40 and 49 years old.
-	AGE_BETWEEN_40_AND_49 = "AGE_BETWEEN_40_AND_49"
+    # The age is between 40 and 49 years old.
+    AGE_BETWEEN_40_AND_49 = "AGE_BETWEEN_40_AND_49"
 
-	# The age is between 50 and 59 years old.
-	AGE_BETWEEN_50_AND_59 = "AGE_BETWEEN_50_AND_59"
+    # The age is between 50 and 59 years old.
+    AGE_BETWEEN_50_AND_59 = "AGE_BETWEEN_50_AND_59"
 
-	# The age is between 60 and 69 years old.
-	AGE_BETWEEN_60_AND_69 = "AGE_BETWEEN_60_AND_69"
+    # The age is between 60 and 69 years old.
+    AGE_BETWEEN_60_AND_69 = "AGE_BETWEEN_60_AND_69"
 
-	# The age is between 70 and 79 years old.
-	AGE_BETWEEN_70_AND_79 = "AGE_BETWEEN_70_AND_79"
+    # The age is between 70 and 79 years old.
+    AGE_BETWEEN_70_AND_79 = "AGE_BETWEEN_70_AND_79"
 
-	# The age is between 80 and 89 years old.
-	AGE_BETWEEN_80_AND_89 = "AGE_BETWEEN_80_AND_89"
+    # The age is between 80 and 89 years old.
+    AGE_BETWEEN_80_AND_89 = "AGE_BETWEEN_80_AND_89"
 
-	# The age is between 90 and 99 years old.
-	AGE_BETWEEN_90_AND_99 = "AGE_BETWEEN_90_AND_99"
+    # The age is between 90 and 99 years old.
+    AGE_BETWEEN_90_AND_99 = "AGE_BETWEEN_90_AND_99"
 
-	# The age greater than 99 years old.
-	AGE_MORE_THAN_99 = "AGE_MORE_THAN_99"
+    # The age is more than 99 years old.
+    AGE_MORE_THAN_99 = "AGE_MORE_THAN_99"
 
-class SurvivalOptions(str,Enum):
-	"""The possible survival options."""
 
-	# The survival is less than 12 month
-	LESS_THAN_12_MONTHS = "LESS_THAN_12_MONTHS"
+class SurvivalOptions(str, Enum):
+    """The possible survival options."""
 
-	# The survival is more than 12 month
-	MORE_THAN_12_MONTHS = "MORE_THAN_12_MONTHS"
+    # The survival is less than 12 months.
+    LESS_THAN_12_MONTHS = "LESS_THAN_12_MONTHS"
 
-	# The survival is unknown.
-	UNKNOWN = "UNKNOWN"
+    # The survival is more than 12 months.
+    MORE_THAN_12_MONTHS = "MORE_THAN_12_MONTHS"
 
-class SPICT_Scale(str,Enum):
-	""" It helps identify the most fragile people who have one or more health
-		problems. It is based on the comprehensive geriatric assessment (applicable
-		to non-geriatric patients) that evaluates areas such as functional
-		independence, nutritional status, cognitive, emotional, social, geriatric
-		syndromes (confusion syndrome, falls, ulcers, polypharmacy, dysphagia),
-		symptoms (pain or dyspnea) and diseases oncological, respiratory, cardiac,
-		neurological, digestive or renal).
-	"""
+    # The survival is unknown.
+    UNKNOWN = "UNKNOWN"
 
-	# The low option of the SPICT scale.
-	LOW = "LOW"
 
-	# The moderate option of the SPICT scale.
-	MODERATE = "MODERATE"
+class SPICT_Scale(str, Enum):
+    """It helps identify the most fragile people who have one or more health
+    problems. It is based on the comprehensive geriatric assessment (applicable
+    to non-geriatric patients) that evaluates areas such as functional
+    independence, nutritional status, cognitive, emotional, social, geriatric
+    syndromes (confusion syndrome, falls, ulcers, polypharmacy, dysphagia),
+    symptoms (pain or dyspnea) and oncological, respiratory, cardiac,
+    neurological, digestive or renal diseases.
+    """
 
-	# The high option of the SPICT scale.
-	HIGH = "HIGH"
+    # The low option of the SPICT scale.
+    LOW = "LOW"
 
-	# The level in the SPICT scale.
-	UNKNOWN = "UNKNOWN"
+    # The moderate option of the SPICT scale.
+    MODERATE = "MODERATE"
 
-class ClinicalRiskGroupOption(str,Enum):
-	""" The possible clinical risk groups."""
+    # The high option of the SPICT scale.
+    HIGH = "HIGH"
 
-	# The clinical risk group is promotion & prevention.
-	PROMOTION_AND_PREVENTION = "PROMOTION_AND_PREVENTION"
+    # The level in the SPICT scale.
+    UNKNOWN = "UNKNOWN"
 
-	# The clinical risk group is self-management support.
-	SELF_MANAGEMENT_SUPPORT = "SELF_MANAGEMENT_SUPPORT"
 
-	# The clinical risk group is illness management.
-	ILLNESS_MANAGEMENT = "ILLNESS_MANAGEMENT"
+class ClinicalRiskGroupOption(str, Enum):
+    """The possible clinical risk groups."""
 
-	# The clinical risk group is case AgeRangeOption.management.
-	CASE_MANAGEMENT = "CASE_MANAGEMENT"
+    # The clinical risk group is promotion & prevention.
+    PROMOTION_AND_PREVENTION = "PROMOTION_AND_PREVENTION"
 
-	# The clinical risk group is unknown.
-	UNKNOWN = "UNKNOWN"
+    # The clinical risk group is self-management support.
+    SELF_MANAGEMENT_SUPPORT = "SELF_MANAGEMENT_SUPPORT"
 
-class BarthelIndex(str,Enum):
-	""" This index allow to check the functional independence for basic activities."""
+    # The clinical risk group is illness management.
+    ILLNESS_MANAGEMENT = "ILLNESS_MANAGEMENT"
 
-	# When the functional independence is between 0 and 20%.
-	TOTAL = "TOTAL"
+    # The clinical risk group is case management.
+    CASE_MANAGEMENT = "CASE_MANAGEMENT"
 
-	# When the functional independence is between 21 and 60%.
-	SEVERE = "SEVERE"
+    # The clinical risk group is unknown.
+    UNKNOWN = "UNKNOWN"
 
-	# When the functional independence is between 61 and 90%.
-	MODERATE = "MODERATE"
 
-	# When the functional independence is between 91 and 99%.
-	MILD = "MILD"
+class BarthelIndex(str, Enum):
+    """This index allows checking the functional independence for basic activities."""
 
-	# When the functional independence is 100%.
-	INDEPENDENT = "INDEPENDENT"
+    # When the functional independence is between 0 and 20%.
+    TOTAL = "TOTAL"
 
-	# When the functional independence is unknown.
-	UNKNOWN = "UNKNOWN"
+    # When the functional independence is between 21 and 60%.
+    SEVERE = "SEVERE"
 
-class CognitiveImpairmentLevel(str,Enum):
-	""" Define the posible cognitive impairment levels."""
+    # When the functional independence is between 61 and 90%.
+    MODERATE = "MODERATE"
 
-	# The cognitive impairment is absent.
-	ABSENT = "ABSENT"
+    # When the functional independence is between 91 and 99%.
+    MILD = "MILD"
 
-	# The cognitive impairment is mild-moderate.
-	MILD_MODERATE = "MILD_MODERATE"
+    # When the functional independence is 100%.
+    INDEPENDENT = "INDEPENDENT"
 
-	# cognitive impairment is severe.
-	SEVERE = "SEVERE"
+    # When the functional independence is unknown.
+    UNKNOWN = "UNKNOWN"
 
-	# The cognitive level is unknown.
-	UNKNOWN = "UNKNOWN"
 
-class DiscomfortDegree(str,Enum):
-	""" The degree of discomfort."""
+class CognitiveImpairmentLevel(str, Enum):
+    """Define the possible cognitive impairment levels."""
 
-	# The discomfort degree is Low or no discomfort.
-	LOW = "LOW"
+    # The cognitive impairment is absent.
+    ABSENT = "ABSENT"
 
-	# The discomfort degree is medium.
-	MEDIUM = "MEDIUM"
+    # The cognitive impairment is mild-moderate.
+    MILD_MODERATE = "MILD_MODERATE"
 
-	# The discomfort degree is medium.
-	HIGH ="HIGH"
+    # The cognitive impairment is severe.
+    SEVERE = "SEVERE"
 
-	# The cognitive level is unknown.
-	UNKNOWN = "UNKNOWN"
+    # The cognitive level is unknown.
+    UNKNOWN = "UNKNOWN"
 
-class NITLevel(str,Enum):
-	""" The level of therapeutic intensity."""
 
-	# It includes all possible measures to prolong survival
-	ONE = "ONE"
+class DiscomfortDegree(str, Enum):
+    """The degree of discomfort."""
 
-	# Includes all possible measures except CPR.
-	TWO_A = "TWO_A"
+    # The discomfort degree is low or there is no discomfort.
+    LOW = "LOW"
 
-	# Includes all possible measures except CPR and ICU.
-	TWO_B = "TWO_B"
+    # The discomfort degree is medium.
+    MEDIUM = "MEDIUM"
 
-	# Includes complementary scans and non-invasive treatments.
-	THREE = "THREE"
+    # The discomfort degree is high.
+    HIGH = "HIGH"
 
-	# It includes empiric symptomatic treatments according to clinical suspicion,
-	# which can be agreed as temporary.
-	FOUR = "FOUR"
+    # The cognitive level is unknown.
+    UNKNOWN = "UNKNOWN"
 
-	# No complementary examinations or etiological treatments are carried out, only
-	# treatments for comfort.
-	FIVE = "FIVE"
+
+class NITLevel(str, Enum):
+    """The level of therapeutic intensity."""
+
+    # It includes all possible measures to prolong survival.
+    ONE = "ONE"
+
+    # Includes all possible measures except CPR.
+    TWO_A = "TWO_A"
+
+    # Includes all possible measures except CPR and ICU.
+    TWO_B = "TWO_B"
+
+    # Includes complementary scans and non-invasive treatments.
+    THREE = "THREE"
+
+    # It includes empirical symptomatic treatments according to clinical suspicion,
+    # which can be temporarily agreed upon.
+    FOUR = "FOUR"
+
+    # No complementary examinations or etiological treatments are carried out, only
+    # comfort treatments.
+    FIVE = "FIVE"
+
 
 class PatientStatusCriteria(BaseModel):
-	"""The status of a patient by some criteria."""
+    """The status of a patient according to some criteria."""
 
-	age_range: AgeRangeOption | None = Field(default=None, title="The range of age of the patient status.")
-	ccd: bool | None = Field(default=None, title="Check if the patient status has a Complex Cronic Disease (CCD).")
-	maca: bool | None = Field(default=None, title="A MACA patient status has answered no to the question: Would you be surprised if this patient died in less than 12 months?")
-	expected_survival: SurvivalOptions | None = Field(default=None, title="The expected survival time for the patient status.")
-	frail_VIG: SPICT_Scale| None = Field(default=None, title="The fragility index of the patient status.")
-	clinical_risk_group: ClinicalRiskGroupOption | None = Field(default=None, title="The clinical risk group of the patient status.")
-	has_social_support: bool | None = Field(default=None, title="Check if the patient status has social support.")
-	independence_at_admission: BarthelIndex | None = Field(default=None, title="The independence for basic activities of daily living at admission.")
-	independence_instrumental_activities: int | None = Field(default=None, title="The index that measures the independence for instrumental activities.")
-	has_advance_directives: bool | None = Field(default=None, title="The answers to the question: Does the patient status have advance directives?")
-	is_competent: bool | None = Field(default=None, title="The answers to the question: Is the patient status competent to understand the instructions of health personnel?")
-	has_been_informed: bool | None = Field(default=None, title="The answers to the question: To the patient status or his/her referent authorized has been informed of possible treatments and the consequences of receiving it or No.")
-	is_coerced: bool | None = Field(default=None, title="The answers to the question: Is it detected that the patient status has seen coerced/pressured by third parties?")
-	has_cognitive_impairment: CognitiveImpairmentLevel| None = Field(default=None, title="Inform if the patient status has cognitive impairment.")
-	has_emocional_pain: bool | None = Field(default=None, title="Inform if the patient status has emotional pain.")
-	discomfort_degree: DiscomfortDegree | None = Field(default=None, title="Describe the degree of discomfort of the patient status before applying any action.")
-	nit_level: NITLevel | None = Field(default=None, title="Describe the level of therapeutic intensity of the patient.")
+    age_range: AgeRangeOption | None = Field(
+        default=None, title="The age range of the patient status."
+    )
+    ccd: bool | None = Field(
+        default=None, title="Whether the patient status has a Complex Chronic Disease (CCD)."
+    )
+    maca: bool | None = Field(
+        default=None,
+        title="A MACA patient status has answered no to the question: 'Would you be surprised if this patient died in less than 12 months?'"
+    )
+    expected_survival: SurvivalOptions | None = Field(
+        default=None, title="The expected survival time for the patient status."
+    )
+    frail_VIG: SPICT_Scale | None = Field(
+        default=None, title="The fragility index of the patient status."
+    )
+    clinical_risk_group: ClinicalRiskGroupOption | None = Field(
+        default=None, title="The clinical risk group of the patient status."
+    )
+    has_social_support: bool | None = Field(
+        default=None, title="Whether the patient status has social support."
+    )
+    independence_at_admission: BarthelIndex | None = Field(
+        default=None, title="The independence for basic activities of daily living at admission."
+    )
+    independence_instrumental_activities: int | None = Field(
+        default=None, title="The index that measures the independence for instrumental activities."
+    )
+    has_advance_directives: bool | None = Field(
+        default=None, title="Whether the patient status has advance directives."
+    )
+    is_competent: bool | None = Field(
+        default=None,
+        title="Whether the patient status is competent to understand the instructions of health personnel."
+    )
+    has_been_informed: bool | None = Field(
+        default=None,
+        title="Whether the patient status or his/her authorized representative has been informed of possible treatments and the consequences of receiving them."
+    )
+    is_coerced: bool | None = Field(
+        default=None,
+        title="Whether it is detected that the patient status has been coerced/pressured by third parties."
+    )
+    has_cognitive_impairment: CognitiveImpairmentLevel | None = Field(
+        default=None, title="Whether the patient status has cognitive impairment."
+    )
+    has_emocional_pain: bool | None = Field(
+        default=None, alias="has_emocional_pain", title="Whether the patient status has emotional pain."
+    )
+    discomfort_degree: DiscomfortDegree | None = Field(
+        default=None, title="Describes the degree of discomfort of the patient status before applying any action."
+    )
+    nit_level: NITLevel | None = Field(
+        default=None, title="Describes the level of therapeutic intensity of the patient."
+    )
 
-	def normalized_age_range(self):
-		"""Return the normalized value of the age range."""
+    # Normalization constants
+    _AGE_RANGE_MAP = {
+        AgeRangeOption.AGE_BETWEEN_0_AND_19: 0.1,
+        AgeRangeOption.AGE_BETWEEN_20_AND_29: 0.2,
+        AgeRangeOption.AGE_BETWEEN_30_AND_39: 0.3,
+        AgeRangeOption.AGE_BETWEEN_40_AND_49: 0.4,
+        AgeRangeOption.AGE_BETWEEN_50_AND_59: 0.5,
+        AgeRangeOption.AGE_BETWEEN_60_AND_69: 0.6,
+        AgeRangeOption.AGE_BETWEEN_70_AND_79: 0.7,
+        AgeRangeOption.AGE_BETWEEN_80_AND_89: 0.8,
+        AgeRangeOption.AGE_BETWEEN_90_AND_99: 0.9,
+        AgeRangeOption.AGE_MORE_THAN_99: 1.0,
+    }
 
-		match self.age_range:
-			case AgeRangeOption.AGE_BETWEEN_0_AND_19:
-				return 0.1
-			case AgeRangeOption.AGE_BETWEEN_20_AND_29:
-				return 0.2
-			case AgeRangeOption.AGE_BETWEEN_30_AND_39:
-				return 0.3
-			case AgeRangeOption.AGE_BETWEEN_40_AND_49:
-				return 0.4
-			case AgeRangeOption.AGE_BETWEEN_50_AND_59:
-				return 0.5
-			case AgeRangeOption.AGE_BETWEEN_60_AND_69:
-				return 0.6
-			case AgeRangeOption.AGE_BETWEEN_70_AND_79:
-				return 0.7
-			case AgeRangeOption.AGE_BETWEEN_80_AND_89:
-				return 0.8
-			case AgeRangeOption.AGE_BETWEEN_90_AND_99:
-				return 0.9
-			case AgeRangeOption.AGE_MORE_THAN_99:
-				return 1.0
-			case _:
-				return 0.0
+    _SURVIVAL_MAP = {
+        SurvivalOptions.MORE_THAN_12_MONTHS: 1.0,
+    }
 
+    _FRAIL_VIG_MAP = {
+        SPICT_Scale.LOW: 1.0,
+        SPICT_Scale.MODERATE: 0.5,
+    }
 
-	def normalized_ccd(self):
-		"""Return the normalized value of the CCD."""
+    _CLINICAL_RISK_MAP = {
+        ClinicalRiskGroupOption.PROMOTION_AND_PREVENTION: 1.0,
+        ClinicalRiskGroupOption.SELF_MANAGEMENT_SUPPORT: 0.5,
+    }
 
-		if self.ccd is False:
+    _BARTHEL_INDEX_MAP = {
+        BarthelIndex.TOTAL: 0.1,
+        BarthelIndex.SEVERE: 0.4,
+        BarthelIndex.MODERATE: 0.75,
+        BarthelIndex.MILD: 0.95,
+        BarthelIndex.INDEPENDENT: 1.0,
+    }
 
-			return 1.0
+    _COGNITIVE_IMPAIRMENT_MAP = {
+        CognitiveImpairmentLevel.ABSENT: 1.0,
+        CognitiveImpairmentLevel.MILD_MODERATE: 0.5,
+    }
 
-		return 0.0
+    _DISCOMFORT_DEGREE_MAP = {
+        DiscomfortDegree.LOW: 1.0,
+        DiscomfortDegree.MEDIUM: 0.5,
+    }
 
+    def normalized_age_range(self) -> float:
+        """Return the normalized value of the age range."""
+        return self._AGE_RANGE_MAP.get(self.age_range, 0.0)
 
-	def normalized_maca(self):
-		"""Return the normalized value of the MACA."""
+    def normalized_ccd(self) -> float:
+        """Return the normalized value of the CCD."""
+        return 1.0 if self.ccd is False else 0.0
 
-		if self.maca is False:
+    def normalized_maca(self) -> float:
+        """Return the normalized value of the MACA."""
+        return 1.0 if self.maca is False else 0.0
 
-			return 1.0
+    def normalized_expected_survival(self) -> float:
+        """Return the normalized value of the expected survival."""
+        return self._SURVIVAL_MAP.get(self.expected_survival, 0.0)
 
-		return 0.0
+    def normalized_frail_vig(self) -> float:
+        """Return the normalized value of the frail VIG."""
+        return self._FRAIL_VIG_MAP.get(self.frail_VIG, 0.0)
 
+    def normalized_clinical_risk_group(self) -> float:
+        """Return the normalized value of the clinical risk group."""
+        return self._CLINICAL_RISK_MAP.get(self.clinical_risk_group, 0.0)
 
-	def normalized_expected_survival(self):
-		"""Return the normalized value of the expected survival."""
+    def normalized_has_social_support(self) -> float:
+        """Return the normalized value of the has social support."""
+        return 1.0 if self.has_social_support is True else 0.0
 
-		match self.expected_survival:
-			case SurvivalOptions.MORE_THAN_12_MONTHS:
-				return 1.0
-			case _:
-				return 0.0
+    def normalized_independence_at_admission(self) -> float:
+        """Return the normalized value of the independence at admission."""
+        return self._BARTHEL_INDEX_MAP.get(self.independence_at_admission, 0.0)
 
-	def normalized_frail_vig(self):
-		"""Return the normalized value of the frail VIG."""
+    def normalized_independence_instrumental_activities(self) -> float:
+        """Return the normalized value of the independence instrumental activities."""
+        match self.independence_instrumental_activities:
+            case None:
+                return 0.0
+            case i if 1 <= i <= 8:
+                # Index scales roughly linearly from 1 to 8 to 0.13 to 1.0
+                return round(i * 0.125, 2) if i < 8 else 1.0
+            case _:
+                return 0.0
 
-		match self.frail_VIG:
-			case SPICT_Scale.LOW:
-				return 1.0
-			case SPICT_Scale.MODERATE:
-				return 0.5
-			case _:
-				return 0.0
+    def normalized_has_advance_directives(self) -> float:
+        """Return the normalized value of the has advance directives."""
+        return 1.0 if self.has_advance_directives is True else 0.0
 
-	def normalized_clinical_risk_group(self):
-		"""Return the normalized value of the clinical risk group."""
+    def normalized_is_competent(self) -> float:
+        """Return the normalized value of the is competent."""
+        return 1.0 if self.is_competent is True else 0.0
 
-		match self.clinical_risk_group:
-			case ClinicalRiskGroupOption.PROMOTION_AND_PREVENTION:
-				return 1.0
-			case ClinicalRiskGroupOption.SELF_MANAGEMENT_SUPPORT:
-				return 0.5
-			case _:
-				return 0.0
+    def normalized_has_been_informed(self) -> float:
+        """Return the normalized value of the has been informed."""
+        return 1.0 if self.has_been_informed is True else 0.0
 
-	def normalized_has_social_support(self):
-		"""Return the normalized value of the has social support."""
+    def normalized_is_coerced(self) -> float:
+        """Return the normalized value of the is coerced."""
+        return 1.0 if self.is_coerced is False else 0.0
 
-		if self.has_social_support is True:
+    def normalized_has_cognitive_impairment(self) -> float:
+        """Return the normalized value of the has cognitive impairment."""
+        return self._COGNITIVE_IMPAIRMENT_MAP.get(self.has_cognitive_impairment, 0.0)
 
-			return 1.0
+    def normalized_has_emocional_pain(self) -> float:
+        """Return the normalized value of the has emotional pain."""
+        return 1.0 if self.has_emocional_pain is False else 0.0
 
-		return 0.0
-
-
-	def normalized_independence_at_admission(self):
-		"""Return the normalized value of the independence at admission."""
-
-		match self.independence_at_admission:
-			case BarthelIndex.TOTAL:
-				return 0.1
-			case BarthelIndex.SEVERE:
-				return 0.4
-			case BarthelIndex.MODERATE:
-				return 0.75
-			case BarthelIndex.MILD:
-				return 0.95
-			case BarthelIndex.INDEPENDENT:
-				return 1.0
-			case _:
-				return 0.0
-
-	def normalized_independence_instrumental_activities(self):
-		"""Return the normalized value of the independence instrumental activities."""
-
-		match self.independence_instrumental_activities:
-			case 1:
-				return 0.13
-			case 2:
-				return 0.26
-			case 3:
-				return 0.38
-			case 4:
-				return 0.5
-			case 5:
-				return 0.63
-			case 6:
-				return 0.75
-			case 7:
-				return 0.88
-			case 8:
-				return 1.0
-			case _:
-				return 0.0
-
-	def normalized_has_advance_directives(self):
-		"""Return the normalized value of the has advance directives."""
-
-		if self.has_advance_directives is True:
-
-			return 1.0
-
-		return 0.0
-
-	def normalized_is_competent(self):
-		"""Return the normalized value of the is competent."""
-
-		if self.is_competent is True:
-
-			return 1.0
-
-		return 0.0
-
-
-	def normalized_has_been_informed(self):
-		"""Return the normalized value of the has been informed."""
-
-		if self.has_been_informed is True:
-
-			return 1.0
-
-		return 0.0
-
-
-	def normalized_is_coerced(self):
-		"""Return the normalized value of the is coerced."""
-
-		if self.is_coerced is False:
-
-			return 1.0
-
-		return 0.0
-
-
-	def normalized_has_cognitive_impairment(self):
-		"""Return the normalized value of the has cognitive impairment."""
-
-		match self.has_cognitive_impairment:
-			case CognitiveImpairmentLevel.ABSENT:
-				return 1.0
-			case CognitiveImpairmentLevel.MILD_MODERATE:
-				return 0.5
-			case _:
-				return 0.0
-
-	def normalized_has_emocional_pain(self):
-		"""Return the normalized value of the has emocional pain."""
-
-		if self.has_emocional_pain is False:
-
-			return 1.0
-
-		return 0.0
-
-
-	def normalized_discomfort_degree(self):
-		"""Return the normalized value of the has discomfort degree."""
-
-		match self.discomfort_degree:
-			case DiscomfortDegree.LOW:
-				return 1.0
-			case DiscomfortDegree.MEDIUM:
-				return 0.5
-			case _:
-				return 0.0
+    def normalized_discomfort_degree(self) -> float:
+        """Return the normalized value of the has discomfort degree."""
+        return self._DISCOMFORT_DEGREE_MAP.get(self.discomfort_degree, 0.0)

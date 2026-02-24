@@ -17,8 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import json
-import logging
 import os
 
 from c2_treatment_autonomy_valuator.autonomy_valuator import AutonomyValuator
@@ -53,35 +51,24 @@ class ReceivedTreatmentHandler:
         """Manage the received messages on the channel valawai/c2/treatment_autonomy_valuator/data/treatment"""
 
         try:
-            try:
-                treatment = TreatmentPayload.model_validate_json(body)
-                json_dict = treatment.model_dump()
-                self.mov.info("Received a treatment", json_dict)
+            treatment = TreatmentPayload.model_validate_json(body)
+            self.mov.info("Received a treatment", treatment)
 
-                valuator = AutonomyValuator()
-                alignment = valuator.align_autonomy(treatment)
+            valuator = AutonomyValuator()
+            alignment = valuator.align_autonomy(treatment)
 
-                value_name = os.getenv('AUTONOMY_VALUE_NAME', "Autonomy")
-                feedback_msg = {
-                    "treatment_id": treatment.id,
-                    "value_name": value_name,
-                    "alignment": alignment
-                }
-                self.message_service.publish_to(
-                    'valawai/c2/treatment_autonomy_valuator/data/treatment_value_feedback',
-                    feedback_msg
-                )
-                self.mov.info("Sent treatment value feedback", feedback_msg)
+            value_name = os.getenv('AUTONOMY_VALUE_NAME', "Autonomy")
+            feedback_msg = {
+                "treatment_id": treatment.id,
+                "value_name": value_name,
+                "alignment": alignment
+            }
+            self.message_service.publish_to(
+                'valawai/c2/treatment_autonomy_valuator/data/treatment_value_feedback',
+                feedback_msg
+            )
+            self.mov.info("Sent treatment value feedback", feedback_msg)
 
-            except ValidationError as validation_error:
-                # We try to load as JSON to include in error log if Pydantic failed but it was valid JSON
-                try:
-                    json_dict = json.loads(body)
-                except (ValueError, TypeError):
-                    json_dict = {"raw_body": str(body)}
-                
-                msg = f"Cannot process treatment, because {validation_error}"
-                self.mov.error(msg, json_dict)
-
-        except Exception:
-            logging.exception("Unexpected error processing message %s", body)
+        except Exception as error:
+            msg = f"Cannot process treatment, because {error}"
+            self.mov.error(msg, body)
